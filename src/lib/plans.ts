@@ -4,6 +4,10 @@ export interface PlanTier {
   id: PlanId
   name: string
   price: number
+  // Total charged once per year when billed annually (~20% off price * 12).
+  // Kept as an explicit number rather than derived, since the discount isn't
+  // an exact fraction once rounded to whole-dollar monthly-equivalents.
+  annualPrice: number
   domainLimit: number
   description: string
   popular: boolean
@@ -16,6 +20,7 @@ export const PLAN_TIERS: PlanTier[] = [
     id: 'starter',
     name: 'Starter',
     price: 29,
+    annualPrice: 276,
     domainLimit: 1,
     description: 'For freelancers and solo owners.',
     popular: false,
@@ -45,6 +50,7 @@ export const PLAN_TIERS: PlanTier[] = [
     id: 'business',
     name: 'Business',
     price: 59,
+    annualPrice: 564,
     domainLimit: 5,
     description: 'Most popular for small businesses.',
     popular: true,
@@ -71,6 +77,7 @@ export const PLAN_TIERS: PlanTier[] = [
     id: 'pro',
     name: 'Pro',
     price: 99,
+    annualPrice: 948,
     domainLimit: 20,
     description: 'For agencies and growing teams.',
     popular: false,

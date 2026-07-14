@@ -1,16 +1,19 @@
 'use client'
 
 import { useState } from 'react'
-import Link from 'next/link'
-import { PLAN_TIERS } from '@/lib/plans'
-import { CheckIcon, MinusIcon } from './icons'
+import { PLAN_TIERS, type PlanId } from '@/lib/plans'
+import { CheckIcon } from '@/components/icons'
+import UpgradeButton from './UpgradeButton'
 
-export default function PricingCards() {
+// Mirrors the Monthly/Annual toggle on the marketing pricing page, but this
+// is the version that actually drives checkout (the landing page's toggle is
+// display-only — real purchases only ever happen from this billing page).
+export default function BillingPlanCards({ currentPlanId }: { currentPlanId: PlanId | null }) {
   const [annual, setAnnual] = useState(false)
 
   return (
     <div>
-      <div className="mb-10 flex justify-center">
+      <div className="mb-6 flex justify-center">
         <div className="inline-flex items-center rounded-full bg-pill p-1 text-sm">
           <button
             type="button"
@@ -38,14 +41,13 @@ export default function PricingCards() {
 
       <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
         {PLAN_TIERS.map((plan) => {
-          const price = annual ? Math.round(plan.annualPrice / 12) : plan.price
+          const isCurrent = currentPlanId === plan.id
+          const displayPrice = annual ? Math.round(plan.annualPrice / 12) : plan.price
           return (
             <div
               key={plan.id}
               className={`relative flex flex-col rounded-2xl p-6 ${
-                plan.popular
-                  ? 'bg-accent text-accent-foreground'
-                  : 'border border-border bg-surface'
+                plan.popular ? 'bg-accent text-accent-foreground' : 'border border-border bg-surface'
               }`}
             >
               {plan.popular && (
@@ -61,30 +63,27 @@ export default function PricingCards() {
                 {plan.name.toUpperCase()}
               </p>
               <p className="mt-1 flex items-baseline gap-1">
-                <span className="text-4xl font-extrabold tracking-tight">${price}</span>
+                <span className="text-4xl font-extrabold tracking-tight">${displayPrice}</span>
                 <span className={plan.popular ? 'text-sm text-white/60' : 'text-sm text-muted'}>
                   /mo
                 </span>
               </p>
               {annual && (
-                <p className={`text-xs ${plan.popular ? 'text-white/60' : 'text-muted'}`}>
+                <p className={`mt-0.5 text-xs ${plan.popular ? 'text-white/60' : 'text-muted'}`}>
                   ${plan.annualPrice} billed annually
                 </p>
               )}
-              <p className={`mt-1 text-sm ${plan.popular ? 'text-white/70' : 'text-muted'}`}>
+              <p className={`mt-1 mb-5 text-sm ${plan.popular ? 'text-white/70' : 'text-muted'}`}>
                 {plan.description}
               </p>
 
-              <Link
-                href={`/login?mode=signup&plan=${plan.id}`}
-                className={`mt-5 rounded-lg px-4 py-2.5 text-center text-sm font-medium ${
-                  plan.popular
-                    ? 'bg-white text-accent'
-                    : 'bg-accent text-accent-foreground'
-                }`}
-              >
-                Start free trial
-              </Link>
+              {isCurrent ? (
+                <span className="rounded-lg border border-white/30 px-4 py-2.5 text-center text-sm font-medium">
+                  Current plan
+                </span>
+              ) : (
+                <UpgradeButton plan={plan.id} annual={annual} variant={plan.popular ? 'light' : 'dark'} />
+              )}
 
               <div
                 className={`mt-6 flex flex-col gap-2.5 border-t pt-5 text-sm ${
@@ -97,24 +96,11 @@ export default function PricingCards() {
                     <span>{f}</span>
                   </div>
                 ))}
-                {plan.omitted.map((f) => (
-                  <div
-                    key={f}
-                    className={`flex items-center gap-2 ${plan.popular ? 'text-white/40' : 'text-muted'}`}
-                  >
-                    <MinusIcon className="h-4 w-4 shrink-0" />
-                    <span>{f}</span>
-                  </div>
-                ))}
               </div>
             </div>
           )
         })}
       </div>
-
-      <p className="mt-8 text-center text-sm text-muted">
-        All plans include a 14-day free trial. No card required to start.
-      </p>
     </div>
   )
 }

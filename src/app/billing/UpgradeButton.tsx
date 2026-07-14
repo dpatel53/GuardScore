@@ -5,10 +5,12 @@ import type { PlanId } from '@/lib/plans'
 
 export default function UpgradeButton({
   plan,
+  annual = false,
   label = 'Start free trial',
   variant = 'dark',
 }: {
   plan: PlanId
+  annual?: boolean
   label?: string
   variant?: 'dark' | 'light'
 }) {
@@ -21,7 +23,7 @@ export default function UpgradeButton({
     const res = await fetch('/api/stripe/checkout', {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ plan }),
+      body: JSON.stringify({ plan, interval: annual ? 'annual' : 'monthly' }),
     })
     const data = await res.json()
     setLoading(false)

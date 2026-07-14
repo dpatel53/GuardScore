@@ -54,6 +54,17 @@ export async function POST(request: Request) {
     .eq('user_id', user.id)
     .maybeSingle()
 
+  const storedCustomerId = existingSub?.stripe_customer_id ?? undefined
+
+  const sessionParams = {
+    mode: 'subscription' as const,
+    line_items: [{ price: priceId, quantity: 1 }],
+    client_reference_id: user.id,
+    success_url: `${siteUrl}/billing?checkout=success`,
+    cancel_url: `${siteUrl}/billing?checkout=cancelled`,
+    metadata: { supabase_user_id: user.id, plan: plan.id, interval: isAnnual ? 'annual' : 'monthly' },
+  }
+
   // Stripe throws (rather than returning a normal error object) for things
   // like a price ID from the wrong mode (test vs. live) or a stale/deleted
   // price. Without this try/catch, an unhandled throw here becomes a non-JSON
@@ -61,16 +72,35 @@ export async function POST(request: Request) {
   // Upgrade button was found to hang forever on "Redirecting…" with no
   // visible error when this happened, instead of surfacing what went wrong.
   try {
-    const session = await stripe.checkout.sessions.create({
-      mode: 'subscription',
-      line_items: [{ price: priceId, quantity: 1 }],
-      customer: existingSub?.stripe_customer_id ?? undefined,
-      customer_email: existingSub?.stripe_customer_id ? undefined : user.email,
-      client_reference_id: user.id,
-      success_url: `${siteUrl}/billing?checkout=success`,
-      cancel_url: `${siteUrl}/billing?checkout=cancelled`,
-      metadata: { supabase_user_id: user.id, plan: plan.id, interval: isAnnual ? 'annual' : 'monthly' },
-    })
+    let session
+    try {
+      session = await stripe.checkout.sessions.create({
+        ...sessionParams,
+        customer: storedCustomerId,
+        customer_email: storedCustomerId ? undefined : user.email,
+      })
+    } catch (err) {
+      // A customer ID saved while testing in a Stripe sandbox (or one
+      // deleted directly in the dashboard) won't exist under a live-mode
+      // key. Rather than fail the whole checkout, drop the stale reference,
+      // clear it so this doesn't repeat, and let Stripe create a fresh
+      // customer from the email instead.
+      const isStaleCustomer =
+        storedCustomerId &&
+        err instanceof Error &&
+        'code' in err &&
+        (err as { code?: string }).code === 'resource_missing' &&
+        'param' in err &&
+        (err as { param?: string }).param === 'customer'
+
+      if (!isStaleCustomer) throw err
+
+      await supabase.from('subscriptions').update({ stripe_customer_id: null }).eq('user_id', user.id)
+      session = await stripe.checkout.sessions.create({
+        ...sessionParams,
+        customer_email: user.email,
+      })
+    }
 
     return NextResponse.json({ ok: true, url: session.url })
   } catch (err) {

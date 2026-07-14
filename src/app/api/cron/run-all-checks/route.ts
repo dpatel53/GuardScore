@@ -7,7 +7,7 @@ import { sendAlertSms } from '@/lib/sms.server'
 import { getPortfolioAnalytics } from '@/lib/dashboardData.server'
 import { sendWeeklyReportEmail } from '@/lib/reportEmail.server'
 import { planById } from '@/lib/plans'
-import { hasAdvancedFeatures } from '@/lib/planAccess.server'
+import { hasAdvancedFeatures, hasActiveAccess } from '@/lib/planAccess.server'
 
 // Triggered daily by Vercel Cron (see vercel.json) or any external scheduler
 // that can send an authorization header. Re-checks every asset on file and,
@@ -64,17 +64,25 @@ export async function GET(request: Request) {
     new Set([...(assets ?? []).map((a) => a.user_id), ...(notificationRows ?? []).map((r) => r.user_id)]),
   )
   const { data: subRows } = userIds.length
-    ? await supabase.from('subscriptions').select('user_id, plan').in('user_id', userIds)
+    ? await supabase.from('subscriptions').select('user_id, plan, status, trial_ends_at').in('user_id', userIds)
     : { data: [] }
+  const subByUser = new Map((subRows ?? []).map((r) => [r.user_id, r]))
   const subPlanByUser = new Map((subRows ?? []).map((r) => [r.user_id, r.plan]))
   function userHasAdvancedFeatures(userId: string): boolean {
     return hasAdvancedFeatures(planById(subPlanByUser.get(userId) ?? 'business'))
+  }
+  function userHasAccess(userId: string): boolean {
+    return hasActiveAccess(subByUser.get(userId))
   }
 
   let checked = 0
   let alertsSent = 0
 
-  for (const asset of assets ?? []) {
+  // An expired trial or lapsed subscription pauses monitoring entirely --
+  // no new checks, no alerts -- until the customer subscribes again.
+  const activeAssets = (assets ?? []).filter((asset) => userHasAccess(asset.user_id))
+
+  for (const asset of activeAssets) {
     // Latest previous status per check_type, to detect a green/yellow -> red flip.
     const { data: previous } = await supabase
       .from('checks')
@@ -128,7 +136,7 @@ export async function GET(request: Request) {
   let weeklyReportsSent = 0
   if (new Date().getDay() === WEEKLY_REPORT_DAY) {
     const optedInUserIds = (notificationRows ?? [])
-      .filter((r) => r.weekly_report_enabled && userHasAdvancedFeatures(r.user_id))
+      .filter((r) => r.weekly_report_enabled && userHasAdvancedFeatures(r.user_id) && userHasAccess(r.user_id))
       .map((r) => r.user_id)
 
     for (const userId of optedInUserIds) {

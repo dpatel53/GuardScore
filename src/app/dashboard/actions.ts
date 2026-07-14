@@ -4,7 +4,7 @@ import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { runAllChecks } from '@/lib/checks.server'
-import { getUserPlan, hasAdvancedFeatures } from '@/lib/planAccess.server'
+import { getUserPlan, getSubscriptionAccess, hasAdvancedFeatures } from '@/lib/planAccess.server'
 
 const UPGRADE_MESSAGE = 'This feature is available on the Business and Pro plans. Upgrade on the billing page to unlock it.'
 
@@ -29,10 +29,18 @@ export async function addAsset(_prevState: { error: string | null }, formData: F
 
   if (!domain) return { error: 'Enter a domain.' }
 
-  const [{ count: existingCount }, plan] = await Promise.all([
-    supabase.from('assets').select('id', { count: 'exact', head: true }).eq('user_id', user.id),
-    getUserPlan(supabase, user.id),
-  ])
+  // Defense in depth: the dashboard layout already redirects an
+  // expired-trial/lapsed-subscription user to /billing before they can reach
+  // this page, but server actions are directly callable, so check again here.
+  const { hasAccess, plan } = await getSubscriptionAccess(supabase, user.id)
+  if (!hasAccess) {
+    return { error: 'Your trial has ended. Pick a plan on the billing page to add domains again.' }
+  }
+
+  const { count: existingCount } = await supabase
+    .from('assets')
+    .select('id', { count: 'exact', head: true })
+    .eq('user_id', user.id)
   const limit = plan.domainLimit
 
   if ((existingCount ?? 0) >= limit) {

@@ -5,7 +5,7 @@ import { checkUptime } from '@/lib/checks.server'
 import { sendAlertEmail } from '@/lib/alerts.server'
 import { sendAlertSms } from '@/lib/sms.server'
 import { planById } from '@/lib/plans'
-import { hasAdvancedFeatures } from '@/lib/planAccess.server'
+import { hasAdvancedFeatures, hasActiveAccess } from '@/lib/planAccess.server'
 
 // A deliberately lightweight, uptime-only sibling to /api/cron/run-all-checks:
 // one fetch per domain instead of six, so it's cheap to call far more often
@@ -36,18 +36,25 @@ export async function GET(request: Request) {
   // SMS alerts are Business/Pro only — same reasoning as run-all-checks.
   const userIds = Array.from(new Set((assets ?? []).map((a) => a.user_id)))
   const { data: subRows } = userIds.length
-    ? await supabase.from('subscriptions').select('user_id, plan').in('user_id', userIds)
+    ? await supabase.from('subscriptions').select('user_id, plan, status, trial_ends_at').in('user_id', userIds)
     : { data: [] }
+  const subByUser = new Map((subRows ?? []).map((r) => [r.user_id, r]))
   const subPlanByUser = new Map((subRows ?? []).map((r) => [r.user_id, r.plan]))
   function userHasAdvancedFeatures(userId: string): boolean {
     return hasAdvancedFeatures(planById(subPlanByUser.get(userId) ?? 'business'))
+  }
+  function userHasAccess(userId: string): boolean {
+    return hasActiveAccess(subByUser.get(userId))
   }
 
   let checked = 0
   let alertsSent = 0
 
+  // Same pause-on-expiry behavior as run-all-checks.
+  const activeAssets = (assets ?? []).filter((asset) => userHasAccess(asset.user_id))
+
   await Promise.all(
-    (assets ?? []).map(async (asset) => {
+    activeAssets.map(async (asset) => {
       const { data: previousRow } = await supabase
         .from('checks')
         .select('status')

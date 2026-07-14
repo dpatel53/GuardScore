@@ -1,5 +1,6 @@
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
+import { getSubscriptionAccess } from '@/lib/planAccess.server'
 import Sidebar from './Sidebar'
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
@@ -9,6 +10,12 @@ export default async function DashboardLayout({ children }: { children: React.Re
   } = await supabase.auth.getUser()
 
   if (!user) redirect('/login')
+
+  // Trial expired with no paid subscription, or a subscription that's
+  // past_due/canceled/incomplete: lock the dashboard and send them to
+  // billing instead of rendering anything below this layout.
+  const { hasAccess } = await getSubscriptionAccess(supabase, user.id)
+  if (!hasAccess) redirect('/billing?expired=1')
 
   return (
     <div className="flex flex-1 flex-col md:flex-row">

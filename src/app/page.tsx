@@ -65,7 +65,7 @@ export default function LandingPage() {
               Check My Domain
             </Link>
             <span className="h-3 w-px bg-white/20" aria-hidden="true" />
-            <a href="mailto:support@guardscore.app" className="hover:text-white">
+            <a href="mailto:guardscore1@gmail.com" className="hover:text-white">
               Support
             </a>
             <span className="h-3 w-px bg-white/20" aria-hidden="true" />
@@ -98,7 +98,7 @@ export default function LandingPage() {
 
           <div className="flex items-center gap-3">
             <a
-              href="mailto:support@guardscore.app?subject=Demo%20request"
+              href="mailto:guardscore1@gmail.com?subject=Demo%20request"
               className="hidden rounded-md border border-[#2F6FED] px-4 py-2 text-sm font-semibold text-[#2F6FED] transition hover:bg-[#2F6FED]/10 sm:inline-block"
             >
               Get a Demo

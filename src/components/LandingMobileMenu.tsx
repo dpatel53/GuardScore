@@ -43,7 +43,7 @@ export default function LandingMobileMenu() {
               </a>
             ))}
             <a
-              href="mailto:support@guardscore.app?subject=Demo%20request"
+              href="mailto:guardscore1@gmail.com?subject=Demo%20request"
               className="mt-2 rounded-md border border-[#2F6FED] px-2 py-2.5 text-center text-sm font-semibold text-[#2F6FED]"
             >
               Get a Demo

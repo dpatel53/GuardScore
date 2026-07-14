@@ -4,6 +4,7 @@ import { createClient } from '@/lib/supabase/server'
 import { planById } from '@/lib/plans'
 import { ShieldCheckIcon } from '@/components/icons'
 import BillingPlanCards from './BillingPlanCards'
+import ManageSubscriptionButton from './ManageSubscriptionButton'
 
 export default async function BillingPage() {
   const supabase = await createClient()
@@ -38,14 +39,19 @@ export default async function BillingPage() {
 
       <main className="mx-auto flex w-full max-w-5xl flex-1 flex-col gap-8 px-6 py-10">
         <div className="rounded-2xl border border-border bg-surface p-6">
-          <p className="mb-1 text-sm font-semibold">Current plan</p>
-          <p className="text-sm text-muted">
-            Status: <span className="font-medium text-foreground">{status}</span>
-            {currentPlan && <> — {currentPlan.name} ({currentPlan.domainLimit} domains)</>}
-            {status === 'trialing' && trialEndsAt && (
-              <> — trial ends {new Date(trialEndsAt).toLocaleDateString()}</>
-            )}
-          </p>
+          <div className="flex flex-wrap items-center justify-between gap-4">
+            <div>
+              <p className="mb-1 text-sm font-semibold">Current plan</p>
+              <p className="text-sm text-muted">
+                Status: <span className="font-medium text-foreground">{status}</span>
+                {currentPlan && <> — {currentPlan.name} ({currentPlan.domainLimit} domains)</>}
+                {status === 'trialing' && trialEndsAt && (
+                  <> — trial ends {new Date(trialEndsAt).toLocaleDateString()}</>
+                )}
+              </p>
+            </div>
+            {subscription?.stripe_customer_id && <ManageSubscriptionButton />}
+          </div>
         </div>
 
         <div>

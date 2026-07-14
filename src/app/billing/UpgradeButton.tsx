@@ -20,19 +20,30 @@ export default function UpgradeButton({
   async function handleClick() {
     setLoading(true)
     setError(null)
-    const res = await fetch('/api/stripe/checkout', {
-      method: 'POST',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ plan, interval: annual ? 'annual' : 'monthly' }),
-    })
-    const data = await res.json()
-    setLoading(false)
+    try {
+      const res = await fetch('/api/stripe/checkout', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ plan, interval: annual ? 'annual' : 'monthly' }),
+      })
+      // A non-JSON response (an unhandled 500, a redirect to an HTML page,
+      // etc.) would otherwise throw inside res.json() and, since that's
+      // after setLoading(true), leave the button stuck on "Redirecting…"
+      // forever with no visible error. Guard against that explicitly.
+      const data = await res.json().catch(() => null)
 
-    if (!data.ok) {
-      setError(data.message ?? 'Billing is not set up yet. Add your Stripe keys to enable this.')
-      return
+      if (!data || !data.ok) {
+        setError(
+          data?.message ?? `Something went wrong (status ${res.status}). Please try again or contact support.`,
+        )
+        return
+      }
+      window.location.href = data.url
+    } catch {
+      setError('Could not reach the server. Check your connection and try again.')
+    } finally {
+      setLoading(false)
     }
-    window.location.href = data.url
   }
 
   return (

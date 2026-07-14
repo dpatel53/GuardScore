@@ -54,16 +54,27 @@ export async function POST(request: Request) {
     .eq('user_id', user.id)
     .maybeSingle()
 
-  const session = await stripe.checkout.sessions.create({
-    mode: 'subscription',
-    line_items: [{ price: priceId, quantity: 1 }],
-    customer: existingSub?.stripe_customer_id ?? undefined,
-    customer_email: existingSub?.stripe_customer_id ? undefined : user.email,
-    client_reference_id: user.id,
-    success_url: `${siteUrl}/billing?checkout=success`,
-    cancel_url: `${siteUrl}/billing?checkout=cancelled`,
-    metadata: { supabase_user_id: user.id, plan: plan.id, interval: isAnnual ? 'annual' : 'monthly' },
-  })
+  // Stripe throws (rather than returning a normal error object) for things
+  // like a price ID from the wrong mode (test vs. live) or a stale/deleted
+  // price. Without this try/catch, an unhandled throw here becomes a non-JSON
+  // 500 response, which makes the client's res.json() call throw too — the
+  // Upgrade button was found to hang forever on "Redirecting…" with no
+  // visible error when this happened, instead of surfacing what went wrong.
+  try {
+    const session = await stripe.checkout.sessions.create({
+      mode: 'subscription',
+      line_items: [{ price: priceId, quantity: 1 }],
+      customer: existingSub?.stripe_customer_id ?? undefined,
+      customer_email: existingSub?.stripe_customer_id ? undefined : user.email,
+      client_reference_id: user.id,
+      success_url: `${siteUrl}/billing?checkout=success`,
+      cancel_url: `${siteUrl}/billing?checkout=cancelled`,
+      metadata: { supabase_user_id: user.id, plan: plan.id, interval: isAnnual ? 'annual' : 'monthly' },
+    })
 
-  return NextResponse.json({ ok: true, url: session.url })
+    return NextResponse.json({ ok: true, url: session.url })
+  } catch (err) {
+    const message = err instanceof Error ? err.message : 'Unknown error creating checkout session.'
+    return NextResponse.json({ ok: false, code: 'stripe_error', message }, { status: 500 })
+  }
 }

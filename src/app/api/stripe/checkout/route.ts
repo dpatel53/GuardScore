@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
+import { createAdminClient } from '@/lib/supabase/admin'
 import { getStripe } from '@/lib/stripe'
 import { planById, type PlanId } from '@/lib/plans'
 
@@ -95,7 +96,13 @@ export async function POST(request: Request) {
 
       if (!isStaleCustomer) throw err
 
-      await supabase.from('subscriptions').update({ stripe_customer_id: null }).eq('user_id', user.id)
+      // Use the service-role client for this write: subscriptions rows are
+      // normally only ever mutated by the webhook (which runs with no user
+      // session), so RLS policies on this table may not grant a logged-in
+      // user UPDATE on their own row. Using the session-scoped client here
+      // risks a silent no-op, which would make this stale ID recur forever.
+      const admin = createAdminClient()
+      await admin.from('subscriptions').update({ stripe_customer_id: null }).eq('user_id', user.id)
       session = await stripe.checkout.sessions.create({
         ...sessionParams,
         customer_email: user.email,

@@ -62,7 +62,7 @@ export default function LandingPage() {
       <header className="sticky top-0 z-30 border-b border-border bg-background/90 backdrop-blur">
         <div className="border-b border-border">
           <div className="mx-auto flex max-w-6xl items-center justify-end gap-4 px-6 py-2 text-xs text-muted">
-            <Link href="/login?mode=signup" className="hover:text-foreground">
+            <Link href="/scan" className="hover:text-foreground">
               Check My Domain
             </Link>
             <span className="h-3 w-px bg-border" aria-hidden="true" />

@@ -9,6 +9,7 @@ const LINKS = [
   { href: '#for-you', label: 'Built for you' },
   { href: '#why', label: 'Why GuardScore' },
   { href: '#pricing', label: 'Pricing' },
+  { href: '/scan', label: 'Free scan' },
   { href: '/blog', label: 'Blog' },
 ]
 

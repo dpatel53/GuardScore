@@ -150,7 +150,7 @@ export default function LandingPage() {
           </p>
           <div className="flex flex-wrap items-center justify-center gap-4">
             <Link
-              href="/login?mode=signup"
+              href="/scan"
               className="inline-flex items-center gap-2 rounded-full bg-accent px-6 py-3.5 text-sm font-medium text-accent-foreground"
             >
               Scan Your Domain Free
@@ -367,7 +367,7 @@ export default function LandingPage() {
             14-day free trial. No card required. Cancel anytime.
           </p>
           <Link
-            href="/login?mode=signup"
+            href="/scan"
             className="inline-block rounded-full bg-white px-8 py-3.5 font-semibold text-accent"
           >
             Scan Your Domain Free

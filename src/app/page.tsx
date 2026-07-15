@@ -1,9 +1,10 @@
 import Link from 'next/link'
 import {
-  ActivityIcon,
   ArrowRightIcon,
   CheckCircleIcon,
+  GlobeIcon,
   LockIcon,
+  PlayIcon,
   RefreshIcon,
   ShieldCheckIcon,
   ScissorsIcon,
@@ -27,24 +28,24 @@ const BUSINESS_TYPES = [
 
 const FEATURE_CARDS = [
   {
-    icon: ActivityIcon,
-    title: 'Website uptime',
-    body: 'Most owners only find out their site is down when a customer mentions it. We check around the clock and tell you first.',
-  },
-  {
-    icon: ShieldCheckIcon,
-    title: 'Email deliverability',
-    body: 'We check your SPF, DKIM, and DMARC records to ensure your business emails reach the inbox, not the spam folder.',
-  },
-  {
     icon: LockIcon,
     title: 'Website security',
-    body: 'Never miss an SSL renewal again. We monitor your certificate, connection strength, security headers, and DNS protections to keep visitor data safe.',
+    body: 'Never miss an SSL renewal again. We monitor your certificate, connection strength, and security headers to keep visitor data safe.',
+  },
+  {
+    icon: GlobeIcon,
+    title: 'DNS security',
+    body: 'CAA and DNSSEC checks so your domain can\'t be quietly hijacked or misused.',
   },
   {
     icon: RefreshIcon,
     title: 'Continuous monitoring',
     body: 'Security isn\'t a one-time check. We re-scan your domains automatically and alert you if something needs attention.',
+  },
+  {
+    icon: CheckCircleIcon,
+    title: 'Blocklist checks',
+    body: 'Know immediately if your domain or IP ends up on a spam or malware blocklist.',
   },
 ]
 
@@ -58,18 +59,18 @@ const CLARITY_POINTS = [
 export default function LandingPage() {
   return (
     <div className="flex flex-1 flex-col">
-      <header className="bg-[#0E2A52] text-white">
-        <div className="border-b border-white/10">
-          <div className="mx-auto flex max-w-6xl items-center justify-end gap-4 px-6 py-2 text-xs text-white/70">
-            <Link href="/login?mode=signup" className="hover:text-white">
+      <header className="sticky top-0 z-30 border-b border-border bg-background/90 backdrop-blur">
+        <div className="border-b border-border">
+          <div className="mx-auto flex max-w-6xl items-center justify-end gap-4 px-6 py-2 text-xs text-muted">
+            <Link href="/login?mode=signup" className="hover:text-foreground">
               Check My Domain
             </Link>
-            <span className="h-3 w-px bg-white/20" aria-hidden="true" />
-            <a href="mailto:guardscore1@gmail.com" className="hover:text-white">
+            <span className="h-3 w-px bg-border" aria-hidden="true" />
+            <a href="mailto:guardscore1@gmail.com" className="hover:text-foreground">
               Support
             </a>
-            <span className="h-3 w-px bg-white/20" aria-hidden="true" />
-            <Link href="/login" className="font-semibold hover:text-white">
+            <span className="h-3 w-px bg-border" aria-hidden="true" />
+            <Link href="/login" className="font-semibold hover:text-foreground">
               Login
             </Link>
           </div>
@@ -77,21 +78,23 @@ export default function LandingPage() {
 
         <div className="relative mx-auto flex max-w-6xl items-center justify-between gap-6 px-6 py-4">
           <Link href="/" className="flex items-center gap-2 text-lg font-extrabold tracking-tight">
-            <ShieldCheckIcon className="h-6 w-6 text-[#2F6FED]" />
-            GuardScore
+            <span className="flex h-7 w-7 items-center justify-center rounded-full bg-accent">
+              <ShieldCheckIcon className="h-3.5 w-3.5 text-accent-foreground" />
+            </span>
+            Guard<span className="text-[#2F6FED]">Score</span>
           </Link>
 
-          <nav className="hidden items-center gap-8 text-sm font-medium text-white/85 md:flex">
-            <a href="#features" className="hover:text-white">
+          <nav className="hidden items-center gap-8 text-sm font-medium text-muted md:flex">
+            <a href="#features" className="hover:text-foreground">
               Features
             </a>
-            <a href="#for-you" className="hover:text-white">
+            <a href="#for-you" className="hover:text-foreground">
               Built for you
             </a>
-            <a href="#why" className="hover:text-white">
+            <a href="#why" className="hover:text-foreground">
               Why GuardScore
             </a>
-            <a href="#pricing" className="hover:text-white">
+            <a href="#pricing" className="hover:text-foreground">
               Pricing
             </a>
           </nav>
@@ -99,13 +102,13 @@ export default function LandingPage() {
           <div className="flex items-center gap-3">
             <a
               href="mailto:guardscore1@gmail.com?subject=Demo%20request"
-              className="hidden rounded-md border border-[#2F6FED] px-4 py-2 text-sm font-semibold text-[#2F6FED] transition hover:bg-[#2F6FED]/10 sm:inline-block"
+              className="hidden rounded-full border border-[#2F6FED] px-4 py-2 text-sm font-semibold text-[#2F6FED] transition hover:bg-[#2F6FED]/10 sm:inline-block"
             >
               Get a Demo
             </a>
             <Link
               href="/login?mode=signup"
-              className="rounded-md bg-[#2F6FED] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#1D4ED8]"
+              className="rounded-full bg-accent px-4 py-2 text-sm font-semibold text-accent-foreground transition hover:bg-[#1e293b]"
             >
               Get Started Free
             </Link>
@@ -115,26 +118,49 @@ export default function LandingPage() {
       </header>
 
       <main className="flex-1">
-        <section className="mx-auto max-w-4xl px-6 pb-24 pt-16 text-center">
+        <section className="mx-auto max-w-4xl px-6 pb-16 pt-20 text-center">
           <span className="mb-8 inline-flex items-center gap-2 rounded-full bg-pill px-4 py-1.5 text-sm">
-            <span className="h-2 w-2 rounded-full bg-accent" />
+            <span className="h-2 w-2 rounded-full bg-[#2F6FED]" />
             Cyber-hygiene made simple
           </span>
           <h1 className="mx-auto mb-6 max-w-3xl text-5xl font-extrabold leading-[1.05] tracking-tighter sm:text-6xl md:text-7xl">
-            The credit score for your business security.
+            The credit score for{' '}
+            <span className="relative inline-block text-[#2F6FED]">
+              your business security
+              <svg
+                className="absolute -bottom-2 left-0 w-full"
+                height="14"
+                viewBox="0 0 300 14"
+                fill="none"
+                preserveAspectRatio="none"
+                aria-hidden="true"
+              >
+                <path d="M2 10C60 2 240 2 298 10" stroke="#93C5FD" strokeWidth="4" strokeLinecap="round" />
+              </svg>
+            </span>
+            .
           </h1>
           <p className="mx-auto mb-10 max-w-xl text-lg leading-relaxed text-muted">
             Is your website even online right now? We monitor your uptime, SSL/TLS, email
-            authentication, DNS security, and security headers, translating complex IT jargon into
-            simple A-F grades.
+            authentication, DNS security, and security headers and translate the jargon into a
+            simple A-F grade.
           </p>
-          <Link
-            href="/login?mode=signup"
-            className="inline-flex items-center gap-2 rounded-full bg-accent px-6 py-3.5 text-sm font-medium text-accent-foreground"
-          >
-            Scan Your Domain Free
-            <ArrowRightIcon className="h-4 w-4" />
-          </Link>
+          <div className="flex flex-wrap items-center justify-center gap-4">
+            <Link
+              href="/login?mode=signup"
+              className="inline-flex items-center gap-2 rounded-full bg-accent px-6 py-3.5 text-sm font-medium text-accent-foreground"
+            >
+              Scan Your Domain Free
+              <ArrowRightIcon className="h-4 w-4" />
+            </Link>
+            <a
+              href="#why"
+              className="inline-flex items-center gap-2 rounded-full border border-border px-6 py-3.5 text-sm font-medium hover:bg-pill"
+            >
+              <PlayIcon className="h-4 w-4 text-[#2F6FED]" />
+              See a sample report
+            </a>
+          </div>
         </section>
 
         <section id="for-you" className="scroll-mt-20 border-t border-border bg-pill/40">
@@ -174,6 +200,80 @@ export default function LandingPage() {
           </div>
         </section>
 
+        <section className="relative overflow-hidden bg-[linear-gradient(135deg,#2F6FED_0%,#1D4ED8_45%,#0F172A_100%)] py-24">
+          <div className="mx-auto grid max-w-6xl grid-cols-1 items-center gap-12 px-6 md:grid-cols-2">
+            <div className="text-white">
+              <h2 className="mb-4 text-4xl font-extrabold tracking-tight">
+                Everything that keeps your business online, watched.
+              </h2>
+              <p className="mb-10 max-w-md text-white/70">
+                No dashboard-reading required just a grade, and what to do about it.
+              </p>
+              <div className="space-y-6">
+                <div className="rounded-2xl border border-white/10 bg-white/10 p-5">
+                  <p className="mb-1 font-semibold">Website uptime</p>
+                  <p className="text-sm text-white/70">
+                    Most owners only find out their site is down when a customer mentions it. We
+                    check around the clock and tell you first.
+                  </p>
+                </div>
+                <div className="rounded-2xl border border-white/10 bg-white/10 p-5">
+                  <p className="mb-1 font-semibold">Email deliverability</p>
+                  <p className="text-sm text-white/70">
+                    We check your SPF, DKIM, and DMARC records so business emails reach the inbox,
+                    not the spam folder.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="overflow-hidden rounded-2xl border border-white/10 bg-surface shadow-2xl">
+              <div className="flex items-center gap-2 border-b border-border bg-pill/60 px-4 py-3">
+                <span className="h-2.5 w-2.5 rounded-full bg-danger-bg" />
+                <span className="h-2.5 w-2.5 rounded-full bg-warning-bg" />
+                <span className="h-2.5 w-2.5 rounded-full bg-success-bg" />
+                <span className="ml-3 rounded border border-border bg-surface px-3 py-1 text-xs text-muted">
+                  guardscore.dev/dashboard
+                </span>
+              </div>
+              <div className="flex">
+                <div className="w-32 shrink-0 space-y-3 border-r border-border p-4 text-xs text-muted">
+                  <p className="font-semibold text-foreground">Dashboard</p>
+                  <p>Domains</p>
+                  <p>Alerts</p>
+                  <p>Reports</p>
+                  <p>Settings</p>
+                </div>
+                <div className="flex-1 p-5">
+                  <div className="mb-4 flex items-center justify-between">
+                    <div>
+                      <p className="text-sm font-semibold">pdfsignstudio.com</p>
+                      <p className="text-xs text-muted">Checked 2 hours ago</p>
+                    </div>
+                    <span className="flex h-10 w-10 items-center justify-center rounded-full bg-success-bg text-sm font-extrabold text-success-text">
+                      A
+                    </span>
+                  </div>
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between rounded-lg bg-success-bg px-3 py-2 text-xs text-success-text">
+                      <span>Website uptime</span>
+                      <span>Online</span>
+                    </div>
+                    <div className="flex items-center justify-between rounded-lg bg-success-bg px-3 py-2 text-xs text-success-text">
+                      <span>SSL certificate</span>
+                      <span>Valid</span>
+                    </div>
+                    <div className="flex items-center justify-between rounded-lg bg-warning-bg px-3 py-2 text-xs text-warning-text">
+                      <span>DMARC record</span>
+                      <span>Needs action</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
         <section id="features" className="scroll-mt-20 border-t border-border">
           <div className="mx-auto max-w-5xl px-6 py-20 text-center">
             <h2 className="mb-3 text-3xl font-extrabold tracking-tight sm:text-4xl">
@@ -200,7 +300,7 @@ export default function LandingPage() {
           </div>
         </section>
 
-        <section id="why" className="scroll-mt-20 border-t border-border">
+        <section id="why" className="scroll-mt-20 border-t border-border bg-pill/40">
           <div className="mx-auto grid max-w-5xl grid-cols-1 items-center gap-12 px-6 py-20 md:grid-cols-2">
             <div>
               <h2 className="mb-4 text-3xl font-extrabold tracking-tight sm:text-4xl">
@@ -220,60 +320,119 @@ export default function LandingPage() {
               </ul>
             </div>
 
-            <div className="rounded-2xl border border-border bg-surface p-5 shadow-sm">
-              <div className="mb-4 flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-semibold">pdfsignstudio.com</p>
-                  <p className="text-xs text-muted">Last checked: 2 hours ago</p>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="rounded-2xl border border-border bg-surface p-5 shadow-sm">
+                <p className="mb-2 text-xs text-muted">Grade history</p>
+                <div className="flex h-20 items-end gap-1.5">
+                  <div className="w-4 rounded bg-warning-bg" style={{ height: '40%' }} />
+                  <div className="w-4 rounded bg-warning-bg" style={{ height: '55%' }} />
+                  <div className="w-4 rounded bg-success-bg" style={{ height: '70%' }} />
+                  <div className="w-4 rounded bg-success-bg" style={{ height: '78%' }} />
+                  <div className="w-4 rounded bg-success-text/70" style={{ height: '92%' }} />
+                  <div className="w-4 rounded bg-success-text" style={{ height: '100%' }} />
                 </div>
-                <span className="flex h-11 w-11 items-center justify-center rounded-full bg-success-bg text-lg font-extrabold text-success-text">
-                  A
-                </span>
+                <p className="mt-2 text-xs text-muted">C → A over 6 weeks</p>
               </div>
-              <div className="flex flex-col gap-2 border-t border-border pt-4">
-                {[
-                  { label: 'Website uptime', status: 'Online', tone: 'success' },
-                  { label: 'SSL certificate', status: 'Valid (142 days)', tone: 'success' },
-                  { label: 'DMARC record', status: 'Needs action', tone: 'warning' },
-                  { label: 'SPF auth', status: 'Configured', tone: 'success' },
-                ].map((row) => (
-                  <div
-                    key={row.label}
-                    className={`flex items-center justify-between rounded-lg px-3 py-2.5 text-sm ${
-                      row.tone === 'success' ? 'bg-success-bg' : 'bg-warning-bg'
-                    }`}
-                  >
-                    <span className={row.tone === 'success' ? 'text-success-text' : 'text-warning-text'}>
-                      {row.label}
-                    </span>
-                    <span
-                      className={`rounded-full px-2.5 py-0.5 text-xs font-medium ${
-                        row.tone === 'success'
-                          ? 'bg-success-text/10 text-success-text'
-                          : 'bg-warning-text/10 text-warning-text'
-                      }`}
-                    >
-                      {row.status}
-                    </span>
-                  </div>
-                ))}
+              <div className="space-y-2 rounded-2xl border border-border bg-surface p-5 shadow-sm">
+                <p className="mb-1 text-xs text-muted">Check details</p>
+                <div className="flex items-center justify-between rounded-lg bg-success-bg px-2.5 py-1.5 text-xs text-success-text">
+                  <span>SPF</span>
+                  <span>Pass</span>
+                </div>
+                <div className="flex items-center justify-between rounded-lg bg-success-bg px-2.5 py-1.5 text-xs text-success-text">
+                  <span>DKIM</span>
+                  <span>Pass</span>
+                </div>
+                <div className="flex items-center justify-between rounded-lg bg-danger-bg px-2.5 py-1.5 text-xs text-danger-text">
+                  <span>DNSSEC</span>
+                  <span>Off</span>
+                </div>
+                <div className="flex items-center justify-between rounded-lg bg-success-bg px-2.5 py-1.5 text-xs text-success-text">
+                  <span>Headers</span>
+                  <span>Pass</span>
+                </div>
               </div>
             </div>
           </div>
         </section>
 
-        <section id="pricing" className="scroll-mt-20 border-t border-border">
-          <div className="mx-auto max-w-5xl px-6 py-20">
+        <section className="bg-[linear-gradient(135deg,#2F6FED_0%,#1D4ED8_45%,#0F172A_100%)] px-6 py-20 text-center">
+          <h2 className="mb-4 text-4xl font-extrabold tracking-tight text-white">
+            Ready to know where you stand?
+          </h2>
+          <p className="mx-auto mb-8 max-w-md text-white/70">
+            14-day free trial. No card required. Cancel anytime.
+          </p>
+          <Link
+            href="/login?mode=signup"
+            className="inline-block rounded-full bg-white px-8 py-3.5 font-semibold text-accent"
+          >
+            Scan Your Domain Free
+          </Link>
+        </section>
+
+        <section id="pricing" className="scroll-mt-20 bg-accent px-6 py-24">
+          <div className="mx-auto max-w-5xl">
             <div className="mb-3 text-center">
-              <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl">
+              <h2 className="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
                 Simple, transparent pricing.
               </h2>
             </div>
-            <p className="mx-auto mb-10 max-w-xl text-center text-base leading-relaxed text-muted">
+            <p className="mx-auto mb-10 max-w-xl text-center text-base leading-relaxed text-white/60">
               No contracts. No hidden fees. Cancel anytime. Every plan includes a 14-day free
               trial.
             </p>
             <PricingCards />
+          </div>
+        </section>
+
+        <section className="bg-[linear-gradient(120deg,#EEF4FF_0%,#F5F0FF_55%,#EAF6FF_100%)] px-6 py-20">
+          <div className="mx-auto max-w-5xl">
+            <h2 className="mb-3 text-3xl font-extrabold tracking-tight">Frequently asked questions</h2>
+            <p className="mb-12 max-w-xl text-muted">The honest answers, no marketing spin.</p>
+            <div className="grid gap-x-10 gap-y-8 text-sm md:grid-cols-3">
+              <div>
+                <p className="mb-2 font-semibold">Will GuardScore ever change my website or DNS?</p>
+                <p className="text-muted">
+                  No. GuardScore only monitors and explains — it never modifies your systems or
+                  DNS.
+                </p>
+              </div>
+              <div>
+                <p className="mb-2 font-semibold">Do I need to install anything?</p>
+                <p className="text-muted">
+                  No software, no plugins. Just add your domain and we start checking public
+                  signals immediately.
+                </p>
+              </div>
+              <div>
+                <p className="mb-2 font-semibold">What happens after my 14-day trial?</p>
+                <p className="text-muted">
+                  Pick a plan to keep monitoring active. If you don&apos;t, your dashboard locks
+                  until you subscribe — your history is saved either way.
+                </p>
+              </div>
+              <div>
+                <p className="mb-2 font-semibold">Can I cancel anytime?</p>
+                <p className="text-muted">
+                  Yes, in one click from your billing page. No contracts, no retention calls.
+                </p>
+              </div>
+              <div>
+                <p className="mb-2 font-semibold">Which plan is right for my business?</p>
+                <p className="text-muted">
+                  Most small businesses with one site pick Starter. If you manage several domains
+                  or want SMS alerts, Business is the popular choice.
+                </p>
+              </div>
+              <div>
+                <p className="mb-2 font-semibold">What exactly gets checked?</p>
+                <p className="text-muted">
+                  Uptime, SSL/TLS strength, SPF/DKIM/DMARC, security headers, domain expiry,
+                  CAA/DNSSEC, and blocklist status.
+                </p>
+              </div>
+            </div>
           </div>
         </section>
       </main>

@@ -9,6 +9,7 @@ const LINKS = [
   { href: '#for-you', label: 'Built for you' },
   { href: '#why', label: 'Why GuardScore' },
   { href: '#pricing', label: 'Pricing' },
+  { href: '/blog', label: 'Blog' },
 ]
 
 // The header's Features/Why/Pricing nav is hidden below md with no

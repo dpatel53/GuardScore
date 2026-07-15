@@ -97,6 +97,9 @@ export default function LandingPage() {
             <a href="#pricing" className="hover:text-foreground">
               Pricing
             </a>
+            <Link href="/blog" className="hover:text-foreground">
+              Blog
+            </Link>
           </nav>
 
           <div className="flex items-center gap-3">
@@ -438,9 +441,11 @@ export default function LandingPage() {
       </main>
 
       <footer className="border-t border-border">
-        <div className="mx-auto max-w-5xl px-6 py-8 text-sm text-muted">
-          GuardScore is a monitoring tool. It reports on public signals, it does not manage or fix
-          your systems.
+        <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-4 px-6 py-8 text-sm text-muted">
+          <p>GuardScore is a monitoring tool. It reports on public signals, it does not manage or fix your systems.</p>
+          <Link href="/blog" className="shrink-0 font-medium hover:text-foreground">
+            Blog
+          </Link>
         </div>
       </footer>
     </div>

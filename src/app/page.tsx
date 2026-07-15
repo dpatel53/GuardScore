@@ -422,7 +422,7 @@ export default function LandingPage() {
                 <p className="mb-2 font-semibold">Which plan is right for my business?</p>
                 <p className="text-muted">
                   Most small businesses with one site pick Starter. If you manage several domains
-                  or want SMS alerts, Business is the popular choice.
+                  or want the trust badge and weekly reports, Business is the popular choice.
                 </p>
               </div>
               <div>

@@ -121,7 +121,7 @@ export async function signOut() {
 }
 
 // Maintenance windows: mute alerts for a domain without stopping monitoring.
-// Checks keep running and history keeps building — only the email/SMS send
+// Checks keep running and history keeps building — only the email send
 // is skipped by the cron routes while alerts_paused_until is in the future.
 const MAX_PAUSE_HOURS = 24 * 14 // 2 weeks, generous ceiling against a bad input
 
@@ -167,33 +167,3 @@ export async function resumeAlerts(assetId: string) {
   revalidatePath('/dashboard/domains')
 }
 
-export async function updateAlertPhone(_prevState: { error: string | null }, formData: FormData) {
-  const supabase = await createClient()
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-  if (!user) redirect('/login')
-
-  const raw = String(formData.get('alertPhone') ?? '').trim()
-  const alertPhone = raw ? raw : null
-
-  if (alertPhone && !/^\+?[1-9]\d{7,14}$/.test(alertPhone.replace(/[\s()-]/g, ''))) {
-    return { error: 'Enter a phone number in international format, e.g. +15551234567.' }
-  }
-
-  // Clearing the number back to blank is always allowed, even on Starter —
-  // only setting a new one requires an upgrade.
-  if (alertPhone) {
-    const plan = await getUserPlan(supabase, user.id)
-    if (!hasAdvancedFeatures(plan)) return { error: UPGRADE_MESSAGE }
-  }
-
-  const { error } = await supabase
-    .from('notification_settings')
-    .upsert({ user_id: user.id, alert_phone: alertPhone }, { onConflict: 'user_id' })
-
-  if (error) return { error: error.message }
-
-  revalidatePath('/dashboard/settings')
-  return { error: null }
-}

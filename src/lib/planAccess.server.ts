@@ -34,9 +34,9 @@ export interface SubscriptionAccess {
 }
 
 // Central subscription lookup — used for the domain limit
-// (dashboard/actions.ts), gating SMS alerts / trust badge / maintenance
-// windows / the Reports page (Business/Pro only), and now also for gating
-// dashboard access itself once a trial expires or a subscription lapses.
+// (dashboard/actions.ts), gating the trust badge / maintenance windows /
+// the Reports page (Business/Pro only), and now also for gating dashboard
+// access itself once a trial expires or a subscription lapses.
 export async function getSubscriptionAccess(
   supabase: SupabaseClient,
   userId: string,

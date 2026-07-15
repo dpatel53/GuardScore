@@ -3,7 +3,6 @@ import { createAdminClient } from '@/lib/supabase/admin'
 import type { CheckStatus } from '@/lib/checks'
 import { runAllChecks } from '@/lib/checks.server'
 import { sendAlertEmail } from '@/lib/alerts.server'
-import { sendAlertSms } from '@/lib/sms.server'
 import { getPortfolioAnalytics } from '@/lib/dashboardData.server'
 import { sendWeeklyReportEmail } from '@/lib/reportEmail.server'
 import { planById } from '@/lib/plans'
@@ -45,8 +44,7 @@ export async function GET(request: Request) {
   // auth.users), so it's loaded once here instead.
   const { data: notificationRows } = await supabase
     .from('notification_settings')
-    .select('user_id, alert_phone, weekly_report_enabled')
-  const phoneByUser = new Map((notificationRows ?? []).map((r) => [r.user_id, r.alert_phone]))
+    .select('user_id, weekly_report_enabled')
 
   // Built from the same assets query above rather than a second lookup —
   // whichever asset happens to carry each user's email is enough.
@@ -56,10 +54,10 @@ export async function GET(request: Request) {
     if (email) emailByUser.set(asset.user_id, email)
   }
 
-  // SMS alerts and the weekly report are Business/Pro only. One query for
-  // every user's plan here, rather than a lookup per asset in the loop
-  // below — someone who set these up and later downgraded to Starter
-  // should stop receiving them, not just lose access to the settings UI.
+  // The weekly report is Business/Pro only. One query for every user's plan
+  // here, rather than a lookup per asset in the loop below — someone who
+  // enabled it and later downgraded to Starter should stop receiving it,
+  // not just lose access to the settings UI.
   const userIds = Array.from(
     new Set([...(assets ?? []).map((a) => a.user_id), ...(notificationRows ?? []).map((r) => r.user_id)]),
   )
@@ -124,10 +122,6 @@ export async function GET(request: Request) {
 
       if (ownerEmail) {
         await sendAlertEmail(ownerEmail, subject, body)
-      }
-      const phone = phoneByUser.get(asset.user_id)
-      if (phone && userHasAdvancedFeatures(asset.user_id)) {
-        await sendAlertSms(phone, `${subject}\n${body}`)
       }
       alertsSent += 1
     }

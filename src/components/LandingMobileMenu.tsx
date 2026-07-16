@@ -34,7 +34,7 @@ export default function LandingMobileMenu() {
       </button>
 
       {open && (
-        <div className="absolute right-0 top-full z-40 mt-3 w-56 rounded-2xl border border-border bg-surface p-3 shadow-xl">
+        <div className="animate-dropdown-in absolute right-0 top-full z-40 mt-3 w-56 origin-top-right rounded-2xl border border-border bg-surface p-3 shadow-xl">
           <nav className="flex flex-col gap-1">
             {LINKS.map((link) => (
               <a

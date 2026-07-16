@@ -42,10 +42,10 @@ export default function PricingCards() {
           return (
             <div
               key={plan.id}
-              className={`relative flex flex-col rounded-2xl p-7 ${
+              className={`relative flex flex-col rounded-2xl p-7 transition duration-300 hover:-translate-y-1.5 ${
                 plan.popular
-                  ? 'border-2 border-[#2F6FED] bg-[linear-gradient(180deg,#1D4ED8,#1e3a8a)] text-white'
-                  : 'border border-white/10 text-white'
+                  ? 'border-2 border-[#2F6FED] bg-[linear-gradient(180deg,#1D4ED8,#1e3a8a)] text-white shadow-lg hover:shadow-2xl'
+                  : 'border border-white/10 text-white hover:border-white/25'
               }`}
             >
               {plan.popular && (

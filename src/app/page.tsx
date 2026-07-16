@@ -16,6 +16,7 @@ import {
 } from '@/components/icons'
 import PricingCards from '@/components/PricingCards'
 import LandingMobileMenu from '@/components/LandingMobileMenu'
+import Reveal from '@/components/Reveal'
 
 const BUSINESS_TYPES = [
   { icon: ScissorsIcon, label: 'Salons & spas' },
@@ -114,11 +115,14 @@ export default function LandingPage() {
         <section className="mx-auto w-full max-w-6xl rounded-[32px] bg-surface p-8 shadow-sm sm:p-12 md:p-16">
           <div className="grid grid-cols-1 items-center gap-14 md:grid-cols-2">
             <div>
-              <span className="mb-7 inline-flex items-center gap-2 rounded-full bg-pill px-4 py-1.5 text-sm">
-                <span className="h-2 w-2 rounded-full bg-[#2F6FED]" />
+              <span className="animate-fade-in-up mb-7 inline-flex items-center gap-2 rounded-full bg-pill px-4 py-1.5 text-sm">
+                <span className="h-2 w-2 animate-pulse rounded-full bg-[#2F6FED]" />
                 Cyber-hygiene made simple
               </span>
-              <h1 className="mb-6 text-5xl font-extrabold leading-[1.15] tracking-tighter sm:text-6xl">
+              <h1
+                className="animate-fade-in-up mb-6 text-5xl font-extrabold leading-[1.15] tracking-tighter sm:text-6xl"
+                style={{ animationDelay: '90ms' }}
+              >
                 The credit score
                 <br />
                 for{' '}
@@ -148,22 +152,28 @@ export default function LandingPage() {
                 </span>
                 .
               </h1>
-              <p className="mb-9 max-w-md text-lg leading-relaxed text-muted">
+              <p
+                className="animate-fade-in-up mb-9 max-w-md text-lg leading-relaxed text-muted"
+                style={{ animationDelay: '180ms' }}
+              >
                 Is your website even online right now? We monitor your uptime, SSL/TLS, email
                 authentication, DNS security, and security headers and translate the jargon into a
                 simple A-F grade.
               </p>
-              <div className="flex flex-wrap items-center gap-4">
+              <div
+                className="animate-fade-in-up flex flex-wrap items-center gap-4"
+                style={{ animationDelay: '270ms' }}
+              >
                 <Link
                   href="/scan"
-                  className="inline-flex items-center gap-2 rounded-full bg-accent px-6 py-3.5 text-sm font-medium text-accent-foreground transition hover:bg-[#1e293b]"
+                  className="inline-flex items-center gap-2 rounded-full bg-accent px-6 py-3.5 text-sm font-medium text-accent-foreground transition hover:scale-[1.03] hover:bg-[#1e293b] active:scale-[0.98]"
                 >
                   Scan Your Domain Free
                   <ArrowRightIcon className="h-4 w-4" />
                 </Link>
                 <a
                   href="#why"
-                  className="inline-flex items-center gap-2 rounded-full border border-border px-6 py-3.5 text-sm font-medium hover:bg-pill"
+                  className="inline-flex items-center gap-2 rounded-full border border-border px-6 py-3.5 text-sm font-medium transition hover:scale-[1.03] hover:bg-pill active:scale-[0.98]"
                 >
                   <PlayIcon className="h-4 w-4 text-[#2F6FED]" />
                   See a sample report
@@ -171,7 +181,10 @@ export default function LandingPage() {
               </div>
             </div>
 
-            <div className="relative mx-auto w-full max-w-sm md:max-w-none">
+            <div
+              className="animate-fade-in-up relative mx-auto w-full max-w-sm md:max-w-none"
+              style={{ animationDelay: '120ms' }}
+            >
               <div
                 className="absolute -inset-8 -z-10 rounded-[40px] bg-[#2F6FED]/10 blur-2xl"
                 aria-hidden="true"
@@ -179,11 +192,11 @@ export default function LandingPage() {
               <a
                 href="#why"
                 aria-label="See a sample report"
-                className="absolute -left-3 -top-3 z-20 flex h-11 w-11 items-center justify-center rounded-full bg-accent text-white shadow-lg transition hover:bg-[#1e293b]"
+                className="absolute -left-3 -top-3 z-20 flex h-11 w-11 items-center justify-center rounded-full bg-accent text-white shadow-lg transition hover:scale-110 hover:bg-[#1e293b]"
               >
                 <PlayIcon className="h-4 w-4" />
               </a>
-              <div className="overflow-hidden rounded-3xl border border-border bg-surface shadow-xl">
+              <div className="animate-float overflow-hidden rounded-3xl border border-border bg-surface shadow-xl transition hover:shadow-2xl">
                 <div className="flex items-center gap-2 border-b border-border bg-pill/60 px-4 py-3">
                   <span className="h-2.5 w-2.5 rounded-full bg-danger-bg" />
                   <span className="h-2.5 w-2.5 rounded-full bg-warning-bg" />
@@ -223,7 +236,7 @@ export default function LandingPage() {
         </section>
 
         <section id="for-you" className="mx-auto w-full max-w-6xl scroll-mt-24 rounded-[32px] bg-surface p-8 sm:p-12 md:p-16">
-          <div className="mx-auto max-w-5xl text-center">
+          <Reveal className="mx-auto max-w-5xl text-center">
             <h2 className="mb-3 text-3xl font-extrabold tracking-tight sm:text-4xl">
               Built for businesses like yours.
             </h2>
@@ -233,16 +246,15 @@ export default function LandingPage() {
             </p>
 
             <div className="mb-12 grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-6">
-              {BUSINESS_TYPES.map(({ icon: Icon, label }) => (
-                <div
-                  key={label}
-                  className="flex flex-col items-center gap-3 rounded-2xl border border-border bg-background px-4 py-6 text-center"
-                >
-                  <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#2F6FED]/10">
-                    <Icon className="h-5 w-5 text-[#1D4ED8]" />
-                  </span>
-                  <span className="text-xs font-medium">{label}</span>
-                </div>
+              {BUSINESS_TYPES.map(({ icon: Icon, label }, i) => (
+                <Reveal key={label} delayMs={i * 60}>
+                  <div className="flex flex-col items-center gap-3 rounded-2xl border border-border bg-background px-4 py-6 text-center transition hover:-translate-y-1 hover:shadow-md">
+                    <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#2F6FED]/10">
+                      <Icon className="h-5 w-5 text-[#1D4ED8]" />
+                    </span>
+                    <span className="text-xs font-medium">{label}</span>
+                  </div>
+                </Reveal>
               ))}
             </div>
 
@@ -256,12 +268,12 @@ export default function LandingPage() {
                 dashboard designed for security professionals.
               </p>
             </div>
-          </div>
+          </Reveal>
         </section>
 
         <section className="mx-auto w-full max-w-6xl overflow-hidden rounded-[32px] bg-[linear-gradient(135deg,#2F6FED_0%,#1D4ED8_45%,#0F172A_100%)] p-8 sm:p-12 md:p-16">
           <div className="grid grid-cols-1 items-center gap-12 md:grid-cols-2">
-            <div className="text-white">
+            <Reveal className="text-white">
               <h2 className="mb-4 text-4xl font-extrabold tracking-tight">
                 Everything that keeps your business online, watched.
               </h2>
@@ -284,9 +296,12 @@ export default function LandingPage() {
                   </p>
                 </div>
               </div>
-            </div>
+            </Reveal>
 
-            <div className="overflow-hidden rounded-2xl border border-white/10 bg-surface shadow-2xl">
+            <Reveal
+              delayMs={120}
+              className="overflow-hidden rounded-2xl border border-white/10 bg-surface shadow-2xl transition hover:-translate-y-1 hover:shadow-[0_20px_50px_rgba(0,0,0,0.25)]"
+            >
               <div className="flex items-center gap-2 border-b border-border bg-pill/60 px-4 py-3">
                 <span className="h-2.5 w-2.5 rounded-full bg-danger-bg" />
                 <span className="h-2.5 w-2.5 rounded-full bg-warning-bg" />
@@ -329,12 +344,12 @@ export default function LandingPage() {
                   </div>
                 </div>
               </div>
-            </div>
+            </Reveal>
           </div>
         </section>
 
         <section id="features" className="mx-auto w-full max-w-6xl scroll-mt-24 rounded-[32px] bg-surface p-8 sm:p-12 md:p-16">
-          <div className="mx-auto max-w-5xl text-center">
+          <Reveal className="mx-auto max-w-5xl text-center">
             <h2 className="mb-3 text-3xl font-extrabold tracking-tight sm:text-4xl">
               No IT degree required
             </h2>
@@ -343,24 +358,23 @@ export default function LandingPage() {
               trust, so you don&apos;t have to guess.
             </p>
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-              {FEATURE_CARDS.map(({ icon: Icon, title, body }) => (
-                <div
-                  key={title}
-                  className="rounded-2xl border border-border bg-background p-6 text-left"
-                >
-                  <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-[#2F6FED]/10">
-                    <Icon className="h-5 w-5 text-[#1D4ED8]" />
+              {FEATURE_CARDS.map(({ icon: Icon, title, body }, i) => (
+                <Reveal key={title} delayMs={i * 70}>
+                  <div className="h-full rounded-2xl border border-border bg-background p-6 text-left transition hover:-translate-y-1 hover:shadow-md">
+                    <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-[#2F6FED]/10">
+                      <Icon className="h-5 w-5 text-[#1D4ED8]" />
+                    </div>
+                    <p className="mb-2 text-base font-semibold">{title}</p>
+                    <p className="text-sm leading-relaxed text-muted">{body}</p>
                   </div>
-                  <p className="mb-2 text-base font-semibold">{title}</p>
-                  <p className="text-sm leading-relaxed text-muted">{body}</p>
-                </div>
+                </Reveal>
               ))}
             </div>
-          </div>
+          </Reveal>
         </section>
 
         <section id="why" className="mx-auto w-full max-w-6xl scroll-mt-24 rounded-[32px] bg-surface p-8 sm:p-12 md:p-16">
-          <div className="mx-auto grid max-w-5xl grid-cols-1 items-center gap-12 md:grid-cols-2">
+          <Reveal className="mx-auto grid max-w-5xl grid-cols-1 items-center gap-12 md:grid-cols-2">
             <div>
               <h2 className="mb-4 text-3xl font-extrabold tracking-tight sm:text-4xl">
                 Clarity over anxiety.
@@ -412,26 +426,28 @@ export default function LandingPage() {
                 </div>
               </div>
             </div>
-          </div>
+          </Reveal>
         </section>
 
         <section className="mx-auto w-full max-w-6xl overflow-hidden rounded-[32px] bg-[linear-gradient(135deg,#2F6FED_0%,#1D4ED8_45%,#0F172A_100%)] px-6 py-16 text-center sm:p-16">
-          <h2 className="mb-4 text-4xl font-extrabold tracking-tight text-white">
-            Ready to know where you stand?
-          </h2>
-          <p className="mx-auto mb-8 max-w-md text-white/70">
-            14-day free trial. No card required. Cancel anytime.
-          </p>
-          <Link
-            href="/scan"
-            className="inline-block rounded-full bg-white px-8 py-3.5 font-semibold text-accent transition hover:bg-white/90"
-          >
-            Scan Your Domain Free
-          </Link>
+          <Reveal>
+            <h2 className="mb-4 text-4xl font-extrabold tracking-tight text-white">
+              Ready to know where you stand?
+            </h2>
+            <p className="mx-auto mb-8 max-w-md text-white/70">
+              14-day free trial. No card required. Cancel anytime.
+            </p>
+            <Link
+              href="/scan"
+              className="inline-block rounded-full bg-white px-8 py-3.5 font-semibold text-accent transition hover:scale-[1.03] hover:bg-white/90 active:scale-[0.98]"
+            >
+              Scan Your Domain Free
+            </Link>
+          </Reveal>
         </section>
 
         <section id="pricing" className="mx-auto w-full max-w-6xl scroll-mt-24 rounded-[32px] bg-accent px-6 py-16 sm:p-16">
-          <div className="mx-auto max-w-5xl">
+          <Reveal className="mx-auto max-w-5xl">
             <div className="mb-3 text-center">
               <h2 className="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
                 Simple, transparent pricing.
@@ -442,11 +458,11 @@ export default function LandingPage() {
               trial.
             </p>
             <PricingCards />
-          </div>
+          </Reveal>
         </section>
 
         <section className="mx-auto w-full max-w-6xl rounded-[32px] bg-[linear-gradient(120deg,#EEF4FF_0%,#F5F0FF_55%,#EAF6FF_100%)] p-8 sm:p-12 md:p-16">
-          <div className="mx-auto max-w-5xl">
+          <Reveal className="mx-auto max-w-5xl">
             <h2 className="mb-3 text-3xl font-extrabold tracking-tight">Frequently asked questions</h2>
             <p className="mb-12 max-w-xl text-muted">The honest answers, no marketing spin.</p>
             <div className="grid gap-x-10 gap-y-8 text-sm md:grid-cols-3">
@@ -492,7 +508,7 @@ export default function LandingPage() {
                 </p>
               </div>
             </div>
-          </div>
+          </Reveal>
         </section>
       </main>
 

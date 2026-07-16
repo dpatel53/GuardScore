@@ -59,184 +59,125 @@ const CLARITY_POINTS = [
 
 export default function LandingPage() {
   return (
-    <div className="flex flex-1 flex-col bg-[#EEF0F6]">
-      <header className="sticky top-0 z-30 px-4 pt-4 sm:px-6">
-        <div className="relative mx-auto flex max-w-6xl items-center justify-between gap-3 rounded-full bg-accent py-2 pl-4 pr-2 shadow-lg shadow-accent/20">
-          <Link href="/" className="flex items-center gap-2 text-base font-extrabold tracking-tight text-white">
-            <span className="flex h-7 w-7 items-center justify-center rounded-full bg-white/15">
-              <ShieldCheckIcon className="h-3.5 w-3.5 text-white" />
+    <div className="flex flex-1 flex-col">
+      <header className="sticky top-0 z-30 border-b border-border bg-background/90 backdrop-blur">
+        <div className="border-b border-border">
+          <div className="mx-auto flex max-w-6xl items-center justify-end gap-4 px-6 py-2 text-xs text-muted">
+            <Link href="/scan" className="hover:text-foreground">
+              Check My Domain
+            </Link>
+            <span className="h-3 w-px bg-border" aria-hidden="true" />
+            <a href="mailto:guardscore1@gmail.com" className="hover:text-foreground">
+              Support
+            </a>
+            <span className="h-3 w-px bg-border" aria-hidden="true" />
+            <Link href="/login" className="font-semibold hover:text-foreground">
+              Login
+            </Link>
+          </div>
+        </div>
+
+        <div className="relative mx-auto flex max-w-6xl items-center justify-between gap-6 px-6 py-4">
+          <Link href="/" className="flex items-center gap-2 text-lg font-extrabold tracking-tight">
+            <span className="flex h-7 w-7 items-center justify-center rounded-full bg-accent">
+              <ShieldCheckIcon className="h-3.5 w-3.5 text-accent-foreground" />
             </span>
-            Guard<span className="text-[#7CA6FF]">Score</span>
+            Guard<span className="text-[#2F6FED]">Score</span>
           </Link>
 
-          <nav className="hidden items-center gap-1 text-sm font-medium text-white/70 md:flex">
-            <a href="#features" className="rounded-full px-3.5 py-2 transition hover:bg-white/10 hover:text-white">
+          <nav className="hidden items-center gap-8 text-sm font-medium text-muted md:flex">
+            <a href="#features" className="hover:text-foreground">
               Features
             </a>
-            <a href="#for-you" className="rounded-full px-3.5 py-2 transition hover:bg-white/10 hover:text-white">
+            <a href="#for-you" className="hover:text-foreground">
               Built for you
             </a>
-            <a href="#why" className="rounded-full px-3.5 py-2 transition hover:bg-white/10 hover:text-white">
+            <a href="#why" className="hover:text-foreground">
               Why GuardScore
             </a>
-            <a href="#pricing" className="rounded-full px-3.5 py-2 transition hover:bg-white/10 hover:text-white">
+            <a href="#pricing" className="hover:text-foreground">
               Pricing
             </a>
-            <Link href="/blog" className="rounded-full px-3.5 py-2 transition hover:bg-white/10 hover:text-white">
+            <Link href="/blog" className="hover:text-foreground">
               Blog
             </Link>
           </nav>
 
-          <div className="flex items-center gap-1.5">
-            <Link
-              href="/scan"
-              className="hidden rounded-full px-3.5 py-2 text-sm font-medium text-white/70 transition hover:bg-white/10 hover:text-white lg:inline-block"
+          <div className="flex items-center gap-3">
+            <a
+              href="mailto:guardscore1@gmail.com?subject=Demo%20request"
+              className="hidden rounded-full border border-[#2F6FED] px-4 py-2 text-sm font-semibold text-[#2F6FED] transition hover:bg-[#2F6FED]/10 sm:inline-block"
             >
-              Free Scan
-            </Link>
-            <Link
-              href="/login"
-              className="hidden rounded-full px-3.5 py-2 text-sm font-medium text-white/70 transition hover:bg-white/10 hover:text-white sm:inline-block"
-            >
-              Login
-            </Link>
+              Get a Demo
+            </a>
             <Link
               href="/login?mode=signup"
-              className="rounded-full bg-white px-4 py-2 text-sm font-semibold text-accent transition hover:bg-white/90"
+              className="rounded-full bg-accent px-4 py-2 text-sm font-semibold text-accent-foreground transition hover:bg-[#1e293b]"
             >
-              Get Started
+              Get Started Free
             </Link>
             <LandingMobileMenu />
           </div>
         </div>
       </header>
 
-      <main className="flex flex-1 flex-col gap-6 px-4 py-6 sm:px-6">
-        <section className="mx-auto w-full max-w-6xl rounded-[32px] bg-surface p-8 shadow-sm sm:p-12 md:p-16">
-          <div className="grid grid-cols-1 items-center gap-14 md:grid-cols-2">
-            <div>
-              <span className="animate-fade-in-up mb-7 inline-flex items-center gap-2 rounded-full bg-pill px-4 py-1.5 text-sm">
-                <span className="h-2 w-2 animate-pulse rounded-full bg-[#2F6FED]" />
-                Cyber-hygiene made simple
-              </span>
-              <h1
-                className="animate-fade-in-up mb-6 text-5xl font-extrabold leading-[1.15] tracking-tighter sm:text-6xl"
-                style={{ animationDelay: '90ms' }}
-              >
-                The credit score
-                <br />
-                for{' '}
-                <span className="relative -mx-1 inline-flex items-center align-middle">
-                  <span className="h-9 w-9 rounded-full bg-[#DCE6FB]" aria-hidden="true" />
-                  <span className="-ml-3 flex h-9 w-9 items-center justify-center rounded-full bg-[#2F6FED] text-white">
-                    <ShieldCheckIcon className="h-4 w-4" />
-                  </span>
-                </span>{' '}
-                your business
-                <br />
-                <span className="relative inline-block text-[#2F6FED]">
-                  security
-                  <svg
-                    className="absolute -bottom-2 left-0 w-full"
-                    height="14"
-                    viewBox="0 0 300 14"
-                    fill="none"
-                    preserveAspectRatio="none"
-                    aria-hidden="true"
-                  >
-                    <path d="M2 10C60 2 240 2 298 10" stroke="#93C5FD" strokeWidth="4" strokeLinecap="round" />
-                  </svg>
-                </span>
-                <span className="ml-2 inline-flex h-9 w-9 items-center justify-center rounded-full bg-accent align-middle">
-                  <CheckCircleIcon className="h-4 w-4 text-white" />
-                </span>
-                .
-              </h1>
-              <p
-                className="animate-fade-in-up mb-9 max-w-md text-lg leading-relaxed text-muted"
-                style={{ animationDelay: '180ms' }}
-              >
-                Is your website even online right now? We monitor your uptime, SSL/TLS, email
-                authentication, DNS security, and security headers and translate the jargon into a
-                simple A-F grade.
-              </p>
-              <div
-                className="animate-fade-in-up flex flex-wrap items-center gap-4"
-                style={{ animationDelay: '270ms' }}
-              >
-                <Link
-                  href="/scan"
-                  className="inline-flex items-center gap-2 rounded-full bg-accent px-6 py-3.5 text-sm font-medium text-accent-foreground transition hover:scale-[1.03] hover:bg-[#1e293b] active:scale-[0.98]"
-                >
-                  Scan Your Domain Free
-                  <ArrowRightIcon className="h-4 w-4" />
-                </Link>
-                <a
-                  href="#why"
-                  className="inline-flex items-center gap-2 rounded-full border border-border px-6 py-3.5 text-sm font-medium transition hover:scale-[1.03] hover:bg-pill active:scale-[0.98]"
-                >
-                  <PlayIcon className="h-4 w-4 text-[#2F6FED]" />
-                  See a sample report
-                </a>
-              </div>
-            </div>
-
-            <div
-              className="animate-fade-in-up relative mx-auto w-full max-w-sm md:max-w-none"
-              style={{ animationDelay: '120ms' }}
-            >
-              <div
-                className="absolute -inset-8 -z-10 rounded-[40px] bg-[#2F6FED]/10 blur-2xl"
+      <main className="flex-1">
+        <section className="mx-auto max-w-4xl px-6 pb-16 pt-20 text-center">
+          <span className="animate-fade-in-up mb-8 inline-flex items-center gap-2 rounded-full bg-pill px-4 py-1.5 text-sm">
+            <span className="h-2 w-2 animate-pulse rounded-full bg-[#2F6FED]" />
+            Cyber-hygiene made simple
+          </span>
+          <h1
+            className="animate-fade-in-up mx-auto mb-6 max-w-3xl text-5xl font-extrabold leading-[1.05] tracking-tighter sm:text-6xl md:text-7xl"
+            style={{ animationDelay: '90ms' }}
+          >
+            The credit score for{' '}
+            <span className="relative inline-block text-[#2F6FED]">
+              your business security
+              <svg
+                className="absolute -bottom-2 left-0 w-full"
+                height="14"
+                viewBox="0 0 300 14"
+                fill="none"
+                preserveAspectRatio="none"
                 aria-hidden="true"
-              />
-              <a
-                href="#why"
-                aria-label="See a sample report"
-                className="absolute -left-3 -top-3 z-20 flex h-11 w-11 items-center justify-center rounded-full bg-accent text-white shadow-lg transition hover:scale-110 hover:bg-[#1e293b]"
               >
-                <PlayIcon className="h-4 w-4" />
-              </a>
-              <div className="animate-float overflow-hidden rounded-3xl border border-border bg-surface shadow-xl transition hover:shadow-2xl">
-                <div className="flex items-center gap-2 border-b border-border bg-pill/60 px-4 py-3">
-                  <span className="h-2.5 w-2.5 rounded-full bg-danger-bg" />
-                  <span className="h-2.5 w-2.5 rounded-full bg-warning-bg" />
-                  <span className="h-2.5 w-2.5 rounded-full bg-success-bg" />
-                  <span className="ml-3 rounded border border-border bg-surface px-3 py-1 text-xs text-muted">
-                    guardscore.dev
-                  </span>
-                </div>
-                <div className="p-6">
-                  <div className="mb-5 flex items-center justify-between">
-                    <div>
-                      <p className="text-sm font-semibold">pdfsignstudio.com</p>
-                      <p className="text-xs text-muted">Checked 2 hours ago</p>
-                    </div>
-                    <span className="flex h-12 w-12 items-center justify-center rounded-full bg-success-bg text-base font-extrabold text-success-text">
-                      A
-                    </span>
-                  </div>
-                  <div className="space-y-2">
-                    <div className="flex items-center justify-between rounded-lg bg-success-bg px-3 py-2 text-xs text-success-text">
-                      <span>Website uptime</span>
-                      <span>Online</span>
-                    </div>
-                    <div className="flex items-center justify-between rounded-lg bg-success-bg px-3 py-2 text-xs text-success-text">
-                      <span>SSL certificate</span>
-                      <span>Valid</span>
-                    </div>
-                    <div className="flex items-center justify-between rounded-lg bg-warning-bg px-3 py-2 text-xs text-warning-text">
-                      <span>DMARC record</span>
-                      <span>Needs action</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+                <path d="M2 10C60 2 240 2 298 10" stroke="#93C5FD" strokeWidth="4" strokeLinecap="round" />
+              </svg>
+            </span>
+            .
+          </h1>
+          <p
+            className="animate-fade-in-up mx-auto mb-10 max-w-xl text-lg leading-relaxed text-muted"
+            style={{ animationDelay: '180ms' }}
+          >
+            Is your website even online right now? We monitor your uptime, SSL/TLS, email
+            authentication, DNS security, and security headers and translate the jargon into a
+            simple A-F grade.
+          </p>
+          <div
+            className="animate-fade-in-up flex flex-wrap items-center justify-center gap-4"
+            style={{ animationDelay: '270ms' }}
+          >
+            <Link
+              href="/scan"
+              className="inline-flex items-center gap-2 rounded-full bg-accent px-6 py-3.5 text-sm font-medium text-accent-foreground transition hover:scale-[1.03] hover:bg-[#1e293b] active:scale-[0.98]"
+            >
+              Scan Your Domain Free
+              <ArrowRightIcon className="h-4 w-4" />
+            </Link>
+            <a
+              href="#why"
+              className="inline-flex items-center gap-2 rounded-full border border-border px-6 py-3.5 text-sm font-medium transition hover:scale-[1.03] hover:bg-pill active:scale-[0.98]"
+            >
+              <PlayIcon className="h-4 w-4 text-[#2F6FED]" />
+              See a sample report
+            </a>
           </div>
         </section>
 
-        <section id="for-you" className="mx-auto w-full max-w-6xl scroll-mt-24 rounded-[32px] bg-surface p-8 sm:p-12 md:p-16">
-          <Reveal className="mx-auto max-w-5xl text-center">
+        <section id="for-you" className="scroll-mt-20 border-t border-border bg-pill/40">
+          <Reveal className="mx-auto max-w-5xl px-6 py-20 text-center">
             <h2 className="mb-3 text-3xl font-extrabold tracking-tight sm:text-4xl">
               Built for businesses like yours.
             </h2>
@@ -248,7 +189,7 @@ export default function LandingPage() {
             <div className="mb-12 grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-6">
               {BUSINESS_TYPES.map(({ icon: Icon, label }, i) => (
                 <Reveal key={label} delayMs={i * 60}>
-                  <div className="flex flex-col items-center gap-3 rounded-2xl border border-border bg-background px-4 py-6 text-center transition hover:-translate-y-1 hover:shadow-md">
+                  <div className="flex flex-col items-center gap-3 rounded-2xl border border-border bg-surface px-4 py-6 text-center transition hover:-translate-y-1 hover:shadow-md">
                     <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#2F6FED]/10">
                       <Icon className="h-5 w-5 text-[#1D4ED8]" />
                     </span>
@@ -258,7 +199,7 @@ export default function LandingPage() {
               ))}
             </div>
 
-            <div className="mx-auto max-w-2xl rounded-2xl border border-border bg-background p-7 text-left">
+            <div className="mx-auto max-w-2xl rounded-2xl border border-border bg-surface p-7 text-left">
               <p className="text-lg font-semibold leading-snug sm:text-xl">
                 52% of small businesses rely on untrained staff, or the owner personally, to handle
                 cybersecurity.
@@ -271,8 +212,8 @@ export default function LandingPage() {
           </Reveal>
         </section>
 
-        <section className="mx-auto w-full max-w-6xl overflow-hidden rounded-[32px] bg-[linear-gradient(135deg,#2F6FED_0%,#1D4ED8_45%,#0F172A_100%)] p-8 sm:p-12 md:p-16">
-          <div className="grid grid-cols-1 items-center gap-12 md:grid-cols-2">
+        <section className="relative overflow-hidden bg-[linear-gradient(135deg,#2F6FED_0%,#1D4ED8_45%,#0F172A_100%)] py-24">
+          <div className="mx-auto grid max-w-6xl grid-cols-1 items-center gap-12 px-6 md:grid-cols-2">
             <Reveal className="text-white">
               <h2 className="mb-4 text-4xl font-extrabold tracking-tight">
                 Everything that keeps your business online, watched.
@@ -348,8 +289,8 @@ export default function LandingPage() {
           </div>
         </section>
 
-        <section id="features" className="mx-auto w-full max-w-6xl scroll-mt-24 rounded-[32px] bg-surface p-8 sm:p-12 md:p-16">
-          <Reveal className="mx-auto max-w-5xl text-center">
+        <section id="features" className="scroll-mt-20 border-t border-border">
+          <Reveal className="mx-auto max-w-5xl px-6 py-20 text-center">
             <h2 className="mb-3 text-3xl font-extrabold tracking-tight sm:text-4xl">
               No IT degree required
             </h2>
@@ -360,7 +301,7 @@ export default function LandingPage() {
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
               {FEATURE_CARDS.map(({ icon: Icon, title, body }, i) => (
                 <Reveal key={title} delayMs={i * 70}>
-                  <div className="h-full rounded-2xl border border-border bg-background p-6 text-left transition hover:-translate-y-1 hover:shadow-md">
+                  <div className="h-full rounded-2xl border border-border bg-surface p-6 text-left transition hover:-translate-y-1 hover:shadow-md">
                     <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-[#2F6FED]/10">
                       <Icon className="h-5 w-5 text-[#1D4ED8]" />
                     </div>
@@ -373,8 +314,8 @@ export default function LandingPage() {
           </Reveal>
         </section>
 
-        <section id="why" className="mx-auto w-full max-w-6xl scroll-mt-24 rounded-[32px] bg-surface p-8 sm:p-12 md:p-16">
-          <Reveal className="mx-auto grid max-w-5xl grid-cols-1 items-center gap-12 md:grid-cols-2">
+        <section id="why" className="scroll-mt-20 border-t border-border bg-pill/40">
+          <Reveal className="mx-auto grid max-w-5xl grid-cols-1 items-center gap-12 px-6 py-20 md:grid-cols-2">
             <div>
               <h2 className="mb-4 text-3xl font-extrabold tracking-tight sm:text-4xl">
                 Clarity over anxiety.
@@ -394,7 +335,7 @@ export default function LandingPage() {
             </div>
 
             <div className="grid grid-cols-2 gap-4">
-              <div className="rounded-2xl border border-border bg-background p-5 shadow-sm">
+              <div className="rounded-2xl border border-border bg-surface p-5 shadow-sm">
                 <p className="mb-2 text-xs text-muted">Grade history</p>
                 <div className="flex h-20 items-end gap-1.5">
                   <div className="w-4 rounded bg-warning-bg" style={{ height: '40%' }} />
@@ -406,7 +347,7 @@ export default function LandingPage() {
                 </div>
                 <p className="mt-2 text-xs text-muted">C → A over 6 weeks</p>
               </div>
-              <div className="space-y-2 rounded-2xl border border-border bg-background p-5 shadow-sm">
+              <div className="space-y-2 rounded-2xl border border-border bg-surface p-5 shadow-sm">
                 <p className="mb-1 text-xs text-muted">Check details</p>
                 <div className="flex items-center justify-between rounded-lg bg-success-bg px-2.5 py-1.5 text-xs text-success-text">
                   <span>SPF</span>
@@ -429,7 +370,7 @@ export default function LandingPage() {
           </Reveal>
         </section>
 
-        <section className="mx-auto w-full max-w-6xl overflow-hidden rounded-[32px] bg-[linear-gradient(135deg,#2F6FED_0%,#1D4ED8_45%,#0F172A_100%)] px-6 py-16 text-center sm:p-16">
+        <section className="bg-[linear-gradient(135deg,#2F6FED_0%,#1D4ED8_45%,#0F172A_100%)] px-6 py-20 text-center">
           <Reveal>
             <h2 className="mb-4 text-4xl font-extrabold tracking-tight text-white">
               Ready to know where you stand?
@@ -446,7 +387,7 @@ export default function LandingPage() {
           </Reveal>
         </section>
 
-        <section id="pricing" className="mx-auto w-full max-w-6xl scroll-mt-24 rounded-[32px] bg-accent px-6 py-16 sm:p-16">
+        <section id="pricing" className="scroll-mt-20 bg-accent px-6 py-24">
           <Reveal className="mx-auto max-w-5xl">
             <div className="mb-3 text-center">
               <h2 className="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
@@ -461,7 +402,7 @@ export default function LandingPage() {
           </Reveal>
         </section>
 
-        <section className="mx-auto w-full max-w-6xl rounded-[32px] bg-[linear-gradient(120deg,#EEF4FF_0%,#F5F0FF_55%,#EAF6FF_100%)] p-8 sm:p-12 md:p-16">
+        <section className="bg-[linear-gradient(120deg,#EEF4FF_0%,#F5F0FF_55%,#EAF6FF_100%)] px-6 py-20">
           <Reveal className="mx-auto max-w-5xl">
             <h2 className="mb-3 text-3xl font-extrabold tracking-tight">Frequently asked questions</h2>
             <p className="mb-12 max-w-xl text-muted">The honest answers, no marketing spin.</p>
@@ -512,17 +453,12 @@ export default function LandingPage() {
         </section>
       </main>
 
-      <footer className="px-4 pb-6 sm:px-6">
-        <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 rounded-[32px] bg-surface px-8 py-6 text-sm text-muted">
+      <footer className="border-t border-border">
+        <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-4 px-6 py-8 text-sm text-muted">
           <p>GuardScore is a monitoring tool. It reports on public signals, it does not manage or fix your systems.</p>
-          <div className="flex shrink-0 items-center gap-4">
-            <a href="mailto:guardscore1@gmail.com" className="font-medium hover:text-foreground">
-              Support
-            </a>
-            <Link href="/blog" className="font-medium hover:text-foreground">
-              Blog
-            </Link>
-          </div>
+          <Link href="/blog" className="shrink-0 font-medium hover:text-foreground">
+            Blog
+          </Link>
         </div>
       </footer>
     </div>
